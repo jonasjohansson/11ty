@@ -3,6 +3,14 @@ name: Build and Deploy (Eleventy → GitHub Pages)
 on:
   push:
     branches: [main]
+    paths:
+      - "index.njk"
+      - "_includes/**"
+      - "eleventy.config.js"
+      - "src/**"
+      - "projects/**"
+      - "package.json"
+      - "package-lock.json"
   workflow_dispatch:
 
 permissions:

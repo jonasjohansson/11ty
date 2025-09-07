@@ -1,22 +1,52 @@
 import { readdirSync, readFileSync, statSync, existsSync } from "node:fs";
 import path from "node:path";
 import markdownIt from "markdown-it";
+import Image from "@11ty/eleventy-img"; // <-- add
 
 const md = markdownIt({ html: true, breaks: false, linkify: true });
 
 export default function (eleventyConfig) {
-  // Copy project media straight through so URLs are /projects/…
   eleventyConfig.addPassthroughCopy("projects");
-
-  // add this:
   eleventyConfig.addPassthroughCopy("src");
+  eleventyConfig.addWatchTarget("projects"); // <-- add
 
-  // Add a simple global for current year (use {{ buildYear }} in templates)
   eleventyConfig.addGlobalData("buildYear", new Date().getFullYear());
 
-  // Make a global that turns /projects/** into data for index
+  // Async responsive image shortcode
+  const urlPathBase = process.env.PATH_PREFIX ? `${process.env.PATH_PREFIX}/img` : "/img";
+
+  eleventyConfig.addNunjucksAsyncShortcode(
+    "responsiveImage",
+    async (src, alt, className = "media-img", sizes = "(min-width: 800px) 980px, 100vw") => {
+      // src should be a filesystem path like "projects/my-piece/image.jpg"
+      const srcPath = path.join(process.cwd(), src);
+
+      const metadata = await Image(srcPath, {
+        widths: [480, 800, 1200, 1600, 2400],
+        formats: ["avif", "webp", "jpeg"],
+        urlPath: urlPathBase,
+        outputDir: "dist/img",
+        sharpOptions: { animated: true },
+      });
+
+      const imageAttributes = {
+        alt,
+        sizes,
+        class: className,
+        loading: "lazy",
+        decoding: "async",
+      };
+
+      return Image.generateHTML(metadata, imageAttributes, {
+        whitespaceMode: "inline",
+      });
+    }
+  );
+
+  // Your existing projects scanner (unchanged, but ensure img URLs have NO leading slash)
   eleventyConfig.addGlobalData("projects", () => {
     const root = "projects";
+    if (!existsSync(root)) return [];
     const dirs = readdirSync(root, { withFileTypes: true })
       .filter((d) => d.isDirectory())
       .map((d) => d.name);
@@ -32,7 +62,6 @@ export default function (eleventyConfig) {
       let title = dir.replace(/[._-]+/g, " ").trim();
       let date = null;
 
-      // Optional per-project data.json
       const dataJson = path.join(dirPath, "data.json");
       if (existsSync(dataJson)) {
         try {
@@ -49,11 +78,11 @@ export default function (eleventyConfig) {
 
       files.forEach((f) => {
         const ext = path.extname(f.name).toLowerCase();
-        const fileUrl = `${root}/${dir}/${f.name}`;
+        const rel = `${root}/${dir}/${f.name}`; // <— NO leading slash
         if ([".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(ext)) {
-          images.push({ src: fileUrl, alt: title });
+          images.push({ src: rel, alt: title });
         } else if ([".mp4", ".webm", ".mov"].includes(ext)) {
-          videos.push({ src: fileUrl });
+          videos.push({ src: rel });
         } else if ([".md", ".txt"].includes(ext)) {
           const raw = readFileSync(path.join(dirPath, f.name), "utf8");
           if (ext === ".md") texts.push(md.render(raw));
@@ -61,7 +90,6 @@ export default function (eleventyConfig) {
         }
       });
 
-      // Use newest file mtime as date if not provided
       if (!date) {
         const mtimes = files.map((f) => statSync(path.join(dirPath, f.name)).mtimeMs);
         date = new Date(mtimes.length ? Math.max(...mtimes) : Date.now()).toISOString();
@@ -70,12 +98,14 @@ export default function (eleventyConfig) {
       return { slug: dir, title, date, images, videos, texts };
     });
 
-    // newest first
     projects.sort((a, b) => new Date(b.date) - new Date(a.date));
     return projects;
   });
 
-  // Helper to mark HTML safe in Nunjucks
+  eleventyConfig.addPassthroughCopy("CNAME");
+
+  // Important: DO NOT override Nunjucks' built-in safe filter
+  // eleventyConfig.addFilter("safe", (v) => v); // <-- leave this OUT
 
   return {
     dir: {
@@ -84,7 +114,7 @@ export default function (eleventyConfig) {
       layouts: "_includes/layouts",
       output: "dist",
     },
-    pathPrefix: process.env.PATH_PREFIX || "/", // <— add this
+    pathPrefix: process.env.PATH_PREFIX || "/", // <-- already set for Pages
     templateFormats: ["njk", "md", "html"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",

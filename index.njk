@@ -12,10 +12,11 @@ permalink: "/index.html"
 
     <div class="project-media">
       {% for img in project.images %}
-      <figure class="media-item">
-        <img src="{{ img.src | url }}" alt="{{ img.alt }}" loading="lazy" />
-      </figure>
-      {% endfor %}
+  <figure class="media-item">
+    {% responsiveImage img.src, img.alt, 'media-img', '(min-width: 800px) 980px, 100vw' %}
+  </figure>
+{% endfor %}
+
 
       {% for vid in project.videos %}
       <figure class="media-item">

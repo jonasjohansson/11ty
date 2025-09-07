@@ -1,13 +1,31 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ title or "Portfolio" }}</title>
-    <link rel="stylesheet" href="{{ '/src/styles.css' | url }}">
-    <script type="module" src="{{ '/src/main.js' | url }}"></script>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title or site.title }}</title>
+  <meta name="description" content="{{ description or site.description }}">
 
-  </head>
+  {# Canonical #}
+  {% set absoluteUrl = (site.url ~ (page.url | url)) %}
+  <link rel="canonical" href="{{ absoluteUrl }}">
+
+  {# Open Graph #}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ title or site.title }}">
+  <meta property="og:description" content="{{ description or site.description }}">
+  <meta property="og:url" content="{{ absoluteUrl }}">
+  <meta property="og:image" content="{{ (site.socialImage | url) | replace('/','',1) | prepend(site.url ~ '/') }}">
+
+  {# Twitter #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title or site.title }}">
+  <meta name="twitter:description" content="{{ description or site.description }}">
+  <meta name="twitter:image" content="{{ (site.socialImage | url) | replace('/','',1) | prepend(site.url ~ '/') }}">
+
+  <link rel="stylesheet" href="{{ '/src/styles.css' | url }}">
+</head>
+
   <body>
     <header class="site-header">
       <h1><a href="/">{{ siteTitle or "Artist Portfolio" }}</a></h1>
