@@ -6,9 +6,13 @@ on:
     paths:
       - "index.njk"
       - "_includes/**"
+      - "_data/**"
       - "eleventy.config.js"
       - "src/**"
       - "projects/**"
+      - "robots.njk"
+      - "sitemap.njk"
+      - "404.njk"
       - "package.json"
       - "package-lock.json"
   workflow_dispatch:

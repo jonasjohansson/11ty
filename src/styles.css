@@ -92,3 +92,9 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+.media-item img,
+.media-item video {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}

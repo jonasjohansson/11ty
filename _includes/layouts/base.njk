@@ -28,23 +28,27 @@
   <meta name="twitter:description" content="{{ description or site.description }}">
   <meta name="twitter:image" content="{{ site.url ~ (ogImg | url) }}">
 
-  <link rel="stylesheet" href="{{ '/src/styles.css' | url }}">
   <link rel="icon" href="{{ '/favicon.ico' | url }}">
   <link rel="manifest" href="{{ '/manifest.webmanifest' | url }}">
 </head>
 
+<body>
+  <header class="site-header">
+    <h1><a href="{{ '/' | url }}">{{ siteTitle or "Artist Portfolio" }}</a></h1>
+  </header>
 
-  <body>
-    <header class="site-header">
-      <h1><a href="/">{{ siteTitle or "Artist Portfolio" }}</a></h1>
-    </header>
-hej
-<main id="main">{{ content | safe }}</main>
+  <main id="main">{{ content | safe }}</main>
 
-    <footer class="site-footer">
-      <small>© {{ buildYear }} · Built with Eleventy 3.1.0</small>
-    </footer>
+  <footer class="site-footer">
+    <small>© {{ buildYear }} · Built with Eleventy 3.1.0 + Vite</small>
+  </footer>
 
-    <script type="module" src="/src/main.js"></script>
-  </body>
+  {# HMR client only in dev #}
+  {% if isDev %}
+    <script type="module" src="/@vite/client"></script>
+  {% endif %}
+
+  {# Entry JS (Vite will bundle/minify; it imports styles.css) #}
+  <script type="module" src="{{ '/src/main.js' | url }}"></script>
+</body>
 </html>
