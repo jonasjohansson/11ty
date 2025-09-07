@@ -1,0 +1,49 @@
+---
+layout: base.njk
+permalink: "/index.html"
+title: "Portfolio"
+description: "Selected works"
+---
+
+<p style="opacity:.6;margin:.5rem 0">Projects found: {{ projects | length }}</p>
+
+<div class="feed">
+  {% for project in projects %}
+  <section class="project" id="{{ project.slug }}">
+    <h2 class="project-title">{{ project.title }}</h2>
+
+    <div class="project-media">
+      {# IMAGES: responsive via eleventy-img shortcode #}
+      {% for img in project.images %}
+        <figure class="media-item">
+          {% responsiveImage img.src, img.alt, "media-img" %}
+        </figure>
+      {% endfor %}
+
+      {# VIDEOS: passthrough from /projects -> use | url to prefix correctly #}
+      {% for vid in project.videos %}
+        <figure class="media-item">
+          <video
+            src="{{ vid.src | url }}"
+            playsinline
+            muted
+            loop
+            controls
+            preload="metadata"
+            style="max-width:100%;height:auto"
+          ></video>
+        </figure>
+      {% endfor %}
+
+      {# TEXT: render any blocks collected from data.json / .md / .txt #}
+      {% if project.texts and project.texts.length %}
+        <div class="text-blocks">
+          {% for t in project.texts %}
+            <article class="text-block">{{ t | safe }}</article>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
