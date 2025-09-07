@@ -2,7 +2,7 @@ name: Build and Deploy (Eleventy → GitHub Pages)
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
