@@ -43,9 +43,9 @@ jobs:
         run: npm ci
 
       - name: Build (Eleventy)
-        env:
-          # Project-site prefix = /<repo-name>
-          PATH_PREFIX: "/${{ github.event.repository.name }}"
+      env:
+        PATH_PREFIX: "/${{ github.event.repository.name }}"
+
         run: npm run build
 
       - name: Upload artifact

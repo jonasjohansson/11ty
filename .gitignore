@@ -1,2 +1,5 @@
-.DS_Store
 node_modules
+.DS_Store
+dist/
+_site/
+.11ty-vite/

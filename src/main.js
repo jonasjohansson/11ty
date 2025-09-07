@@ -1,3 +1,6 @@
+import "./styles.css";
+// optional JS here
+
 // Smooth anchor scrolling for in-page links
 document.addEventListener("click", (e) => {
   const a = e.target.closest('a[href^="#"]');

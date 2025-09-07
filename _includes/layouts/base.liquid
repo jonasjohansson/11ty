@@ -4,34 +4,30 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  {# SEO fallbacks #}
   <title>{{ title or site.title }}</title>
   <meta name="description" content="{{ description or site.description }}">
 
-  {# Canonical #}
-  {% set canonical = site.url ~ (page.url | url) %}
+  {% assign canonical = site.url | append: (page.url | url) %}
   <link rel="canonical" href="{{ canonical }}">
 
-  {# Social image #}
-  {% set ogImg = socialImage or site.socialImage %}
-
-  {# Open Graph #}
+  {% assign ogImg = socialImage or site.socialImage %}
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{ title or site.title }}">
   <meta property="og:description" content="{{ description or site.description }}">
   <meta property="og:url" content="{{ canonical }}">
-  <meta property="og:image" content="{{ site.url ~ (ogImg | url) }}">
+  <meta property="og:image" content="{{ site.url | append: (ogImg | url) }}">
 
-  {# Twitter #}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ title or site.title }}">
   <meta name="twitter:description" content="{{ description or site.description }}">
-  <meta name="twitter:image" content="{{ site.url ~ (ogImg | url) }}">
+  <meta name="twitter:image" content="{{ site.url | append: (ogImg | url) }}">
+
+  {% viteClient %}
+  {% viteCSS "src/styles.css" %}
 
   <link rel="icon" href="{{ '/favicon.ico' | url }}">
   <link rel="manifest" href="{{ '/manifest.webmanifest' | url }}">
 </head>
-
 <body>
   <header class="site-header">
     <h1><a href="{{ '/' | url }}">{{ siteTitle or "Artist Portfolio" }}</a></h1>
@@ -43,12 +39,6 @@
     <small>© {{ buildYear }} · Built with Eleventy 3.1.0 + Vite</small>
   </footer>
 
-  {# HMR client in dev only #}
-  {% if isDev %}
-    <script type="module" src="/@vite/client"></script>
-  {% endif %}
-
-  {# Vite entry: IMPORTANT — keep absolute "/src/main.js" (no | url) #}
-  <script type="module" src="/src/main.js"></script>
+  {% viteScript "src/main.js" %}
 </body>
 </html>
