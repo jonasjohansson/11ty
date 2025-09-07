@@ -3,28 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  {# Page title/description fallbacks from site data #}
   <title>{{ title or site.title }}</title>
   <meta name="description" content="{{ description or site.description }}">
 
-  {# Canonical #}
-  {% set absoluteUrl = (site.url ~ (page.url | url)) %}
-  <link rel="canonical" href="{{ absoluteUrl }}">
+  {# Canonical URL #}
+  {% set canonical = site.url ~ (page.url | url) %}
+  <link rel="canonical" href="{{ canonical }}">
+
+  {# Pick per-page social image if provided, else site default #}
+  {% set ogImg = socialImage or site.socialImage %}
 
   {# Open Graph #}
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{ title or site.title }}">
   <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:url" content="{{ absoluteUrl }}">
-  <meta property="og:image" content="{{ (site.socialImage | url) | replace('/','',1) | prepend(site.url ~ '/') }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:image" content="{{ site.url ~ (ogImg | url) }}">
 
   {# Twitter #}
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ title or site.title }}">
   <meta name="twitter:description" content="{{ description or site.description }}">
-  <meta name="twitter:image" content="{{ (site.socialImage | url) | replace('/','',1) | prepend(site.url ~ '/') }}">
+  <meta name="twitter:image" content="{{ site.url ~ (ogImg | url) }}">
 
   <link rel="stylesheet" href="{{ '/src/styles.css' | url }}">
+  <link rel="icon" href="{{ '/favicon.ico' | url }}">
+  <link rel="manifest" href="{{ '/manifest.webmanifest' | url }}">
 </head>
+
 
   <body>
     <header class="site-header">

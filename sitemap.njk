@@ -2,18 +2,19 @@
 permalink: "/sitemap.xml"
 eleventyExcludeFromCollections: true
 ---
-
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>{{ site.url }}</loc>
     <changefreq>weekly</changefreq>
   </url>
-  {% for page in collections.all %}
-    {% if page.url and page.url != '/sitemap.xml' %}
+  {% for p in collections.all %}
+    {% if p.url and p.url != '/sitemap.xml' %}
     <url>
-      <loc>{{ site.url }}{{ page.url | url }}</loc>
-      <lastmod>{{ page.date | date('yyyy-MM-dd') }}</lastmod>
+      <loc>{{ site.url }}{{ p.url | url }}</loc>
+      {# prefer page.date, else use inputPath mtime (if available), else today #}
+      {% set d = p.date or p.data.page.date or p.data.date or buildYear ~ '-01-01' %}
+      <lastmod>{{ d | isoDate }}</lastmod>
       <changefreq>monthly</changefreq>
     </url>
     {% endif %}

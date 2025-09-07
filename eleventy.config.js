@@ -104,6 +104,13 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addPassthroughCopy("CNAME");
 
+  // formats a JS Date (or string) as YYYY-MM-DD (UTC)
+  eleventyConfig.addFilter("isoDate", (d) => {
+    if (!d) return "";
+    const dt = new Date(d);
+    return isNaN(dt) ? "" : dt.toISOString().slice(0, 10);
+  });
+
   // Important: DO NOT override Nunjucks' built-in safe filter
   // eleventyConfig.addFilter("safe", (v) => v); // <-- leave this OUT
 
