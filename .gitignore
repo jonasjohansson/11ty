@@ -1,5 +1,23 @@
-node_modules
-.DS_Store
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build output (always rebuilt in CI)
 dist/
 _site/
 .11ty-vite/
+
+# Vite + Eleventy caches
+.cache/
+node_modules/.vite/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Env + local config
+.env
+.env.local
