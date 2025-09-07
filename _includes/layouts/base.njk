@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title or "Portfolio" }}</title>
+    <link rel="stylesheet" href="{{ '/src/styles.css' | url }}">
+    <script type="module" src="{{ '/src/main.js' | url }}"></script>
+
+  </head>
+  <body>
+    <header class="site-header">
+      <h1><a href="/">{{ siteTitle or "Artist Portfolio" }}</a></h1>
+    </header>
+
+<main id="main">{{ content | safe }}</main>
+
+    <footer class="site-footer">
+      <small>© {{ buildYear }} · Built with Eleventy 3.1.0</small>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

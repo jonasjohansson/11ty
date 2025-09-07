@@ -1,0 +1,36 @@
+---
+layout: base.njk
+permalink: "/index.html"
+---
+
+<p style="opacity:.6;margin:.5rem 0">Projects found: {{ projects | length }}</p>
+
+<div class="feed">
+  {% for project in projects %}
+  <section class="project" id="{{ project.slug }}">
+    <h2 class="project-title">{{ project.title }}</h2>
+
+    <div class="project-media">
+      {% for img in project.images %}
+      <figure class="media-item">
+        <img src="{{ img.src | url }}" alt="{{ img.alt }}" loading="lazy" />
+      </figure>
+      {% endfor %}
+
+      {% for vid in project.videos %}
+      <figure class="media-item">
+        <video src="{{ vid.src | url }}" playsinline muted loop controls preload="metadata"></video>
+      </figure>
+      {% endfor %}
+
+      {% if project.texts and project.texts.length %}
+      <div class="text-blocks">
+        {% for t in project.texts %}
+        <article class="text-block">{{ t | safe }}</article>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
