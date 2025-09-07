@@ -155,6 +155,8 @@ export default function (eleventyConfig) {
     return projects;
   });
 
+  eleventyConfig.addGlobalData("isDev", process.env.ELEVENTY_RUN_MODE !== "build");
+
   /** -------------------------
    *  Eleventy return config
    *  ------------------------- */
