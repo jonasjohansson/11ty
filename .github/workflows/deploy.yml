@@ -7,14 +7,18 @@ on:
       - "index.njk"
       - "_includes/**"
       - "_data/**"
-      - "eleventy.config.js"
-      - "src/**"
       - "projects/**"
       - "robots.njk"
       - "sitemap.njk"
       - "404.njk"
+      - "eleventy.config.js"
       - "package.json"
       - "package-lock.json"
+      - "src/**"
+      - "CNAME"
+      - ".eleventyignore"
+      - ".gitignore"
+      - ".github/workflows/**"
   workflow_dispatch:
 
 permissions:
@@ -33,19 +37,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node (22)
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
+      # Optional cache to speed up repeated builds; harmless if empty
+      - name: Cache build caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cache
+            .11ty-vite
+            node_modules/.vite
+          key: ${{ runner.os }}-eleventy-${{ hashFiles('package-lock.json') }}-${{ hashFiles('projects/**') }}
+          restore-keys: |
+            ${{ runner.os }}-eleventy-${{ hashFiles('package-lock.json') }}-
+
       - name: Install
         run: npm ci
 
-      - name: Build (Eleventy)
-      env:
-        PATH_PREFIX: "/${{ github.event.repository.name }}"
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
 
+      - name: Detect PATH_PREFIX (CNAME → "/" else "/<repo>")
+        run: |
+          if [ -f CNAME ]; then
+            echo "PATH_PREFIX=/" >> "$GITHUB_ENV"
+          else
+            echo "PATH_PREFIX=/${{ github.event.repository.name }}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build (Eleventy)
+        env:
+          PATH_PREFIX: ${{ env.PATH_PREFIX }}
         run: npm run build
 
       - name: Upload artifact
