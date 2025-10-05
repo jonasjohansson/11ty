@@ -268,14 +268,16 @@ function initializeStrips() {
   });
 
   // Trigger initial animation only on first page load
+  // Set animation delays AFTER shuffling for correct order
   allStrips.forEach((strip, index) => {
+    strip.style.animationDelay = `${index * 0.03}s`;
     strip.classList.add("initial-load");
 
     // After animation completes, mark as loaded for instant visibility on filter changes
     setTimeout(() => {
       strip.classList.remove("initial-load");
       strip.classList.add("loaded");
-    }, 250 + index * 30); // Match animation duration + stagger delay
+    }, 150 + index * 30); // Match animation duration + stagger delay
   });
 
   // Add click and hover handlers to strips
@@ -314,10 +316,24 @@ function initializeStrips() {
 
   // Touch handling for mobile - track which strip is being touched
   let currentlyTouchedStrip = null;
+  let touchStartStrip = null;
+  let hasMoved = false;
+
+  // Track touch start for tap detection
+  stripsContainer.addEventListener("touchstart", (e) => {
+    if (e.touches && e.touches.length > 0) {
+      const t = e.touches[0];
+      const element = document.elementFromPoint(t.clientX, t.clientY);
+      touchStartStrip = element?.closest(".strip");
+      hasMoved = false;
+    }
+  }, { passive: true });
 
   stripsContainer.addEventListener(
     "touchmove",
     (e) => {
+      hasMoved = true; // Mark that user is sliding, not tapping
+      
       if (e.touches && e.touches.length > 0) {
         const t = e.touches[0];
         handlePoint(t.clientX, t.clientY);
@@ -335,7 +351,7 @@ function initializeStrips() {
           // Add hover class to new strip
           if (strip) {
             strip.classList.add("touch-hover");
-
+            
             // Update subtitle for touch
             const projectSlug = strip.getAttribute("data-project");
             const project = projects.find((p) => p.slug === projectSlug);
@@ -353,8 +369,21 @@ function initializeStrips() {
     { passive: true }
   );
 
-  // Clear touch hover when touch ends
-  stripsContainer.addEventListener("touchend", () => {
+  // Handle touch end - detect tap vs slide
+  stripsContainer.addEventListener("touchend", (e) => {
+    // If user didn't move and tapped on a strip, open it
+    if (!hasMoved && touchStartStrip) {
+      const projectSlug = touchStartStrip.getAttribute("data-project");
+      const project = projects.find((p) => p.slug === projectSlug);
+      
+      if (project) {
+        const projectId = project.slug || project.title.toLowerCase().replace(/\s+/g, "-");
+        const projectPath = pathPrefix ? `${pathPrefix}/work/${projectId}` : `/work/${projectId}`;
+        router.navigate(projectPath, { project });
+      }
+    }
+    
+    // Clear touch hover
     if (currentlyTouchedStrip) {
       currentlyTouchedStrip.classList.remove("touch-hover");
       currentlyTouchedStrip = null;
@@ -362,6 +391,9 @@ function initializeStrips() {
     if (headerSubtitle) {
       headerSubtitle.textContent = defaultSubtitle;
     }
+    
+    touchStartStrip = null;
+    hasMoved = false;
   });
 
   // Remove mouseleave handler - let positions stay where they are

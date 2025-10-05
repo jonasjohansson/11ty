@@ -55,7 +55,9 @@
   min-height: 100vh;
   min-height: 100dvh;
   position: relative;
-  z-index: 1;
+  z-index: 10; /* Below strips (z-index: 50) */
+  transition: opacity 0.3s ease;
+  background: #1a1a1a; /* Match strips background to prevent white flash */
 }
 
 /* Hide projects container when empty */
@@ -119,11 +121,36 @@ figure {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 5px;
+}
+
+/* Hero image - no border radius */
+.media-item:first-child img,
+.media-item.hero img {
+  border-radius: 0;
 }
 
 /* Text blocks */
 .text-block {
   padding-bottom: var(--spacing-xl);
+}
+
+/* Credits block */
+.credits-block {
+  padding-bottom: var(--spacing-xl);
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.credits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.credits-list li {
+  margin-bottom: 0.5rem;
 }
 
 /* Grid column start classes - with !important for precedence */

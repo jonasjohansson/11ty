@@ -52,4 +52,9 @@ blocks:
     src: 00010.jpg
     colStart: 1
     colSpan: 12
+  - type: credits
+    credits:
+      - In collaboration with [Eric Schmitz](https://ericschmitz.com)
+      - Made with [Smash Studio](https://smash.studio/)
+      - Photography by Jane Doe
 ---

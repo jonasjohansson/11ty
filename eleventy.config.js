@@ -9,6 +9,7 @@ import Image from "@11ty/eleventy-img";
 import nunjucks from "nunjucks";
 import EleventyVitePlugin from "@11ty/eleventy-plugin-vite";
 import matter from "gray-matter";
+import { getAverageColor } from "fast-average-color-node";
 
 const md = markdownIt({ html: true, breaks: false, linkify: true });
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
@@ -274,33 +275,33 @@ export default function (eleventyConfig) {
           }
         }
 
-      // Generate high-quality strip image
-      if (firstImageSrc) {
-        try {
-          const srcPath = path.join(process.cwd(), firstImageSrc);
-          const urlPathBase = process.env.PATH_PREFIX ? `${process.env.PATH_PREFIX}/img` : "/img";
-          
-          const metadata = await Image(srcPath, {
-            widths: [1920], // High resolution for strips
-            formats: ["jpeg"], // Just JPEG for strips - faster processing
-            urlPath: urlPathBase,
-            outputDir: "dist/img",
-            sharpJpegOptions: { quality: 90, progressive: true }, // High quality for portfolio
-            filenameFormat(id, fileSrc, width, format) {
-              const dirSlug = slug(path.basename(path.dirname(fileSrc)));
-              const baseName = path.basename(fileSrc, path.extname(fileSrc));
-              const baseSlug = slug(baseName);
-              const shortHash = String(id).slice(0, 8);
-              return `${dirSlug}-${baseSlug}-${width}w-${shortHash}.${format}`;
-            },
-          });
+        // Generate high-quality strip image
+        if (firstImageSrc) {
+          try {
+            const srcPath = path.join(process.cwd(), firstImageSrc);
+            const urlPathBase = process.env.PATH_PREFIX ? `${process.env.PATH_PREFIX}/img` : "/img";
 
-          const jpeg = metadata.jpeg?.[0];
-          firstImageOptimized = jpeg?.url;
-        } catch (err) {
-          console.warn(`⚠️  Could not process strip image ${firstImageSrc}:`, err.message);
+            const metadata = await Image(srcPath, {
+              widths: [1920], // High resolution for strips
+              formats: ["jpeg"], // Just JPEG for strips - faster processing
+              urlPath: urlPathBase,
+              outputDir: "dist/img",
+              sharpJpegOptions: { quality: 90, progressive: true }, // High quality for portfolio
+              filenameFormat(id, fileSrc, width, format) {
+                const dirSlug = slug(path.basename(path.dirname(fileSrc)));
+                const baseName = path.basename(fileSrc, path.extname(fileSrc));
+                const baseSlug = slug(baseName);
+                const shortHash = String(id).slice(0, 8);
+                return `${dirSlug}-${baseSlug}-${width}w-${shortHash}.${format}`;
+              },
+            });
+
+            const jpeg = metadata.jpeg?.[0];
+            firstImageOptimized = jpeg?.url;
+          } catch (err) {
+            console.warn(`⚠️  Could not process strip image ${firstImageSrc}:`, err.message);
+          }
         }
-      }
 
         return {
           title,
@@ -352,7 +353,7 @@ export default function (eleventyConfig) {
         // Process blocks from frontmatter
         const content = blocks
           .map((block) => {
-            const { type, src, content: textContent, colStart = 1, colSpan = 12, fontSize, textAlign } = block;
+            const { type, src, content: textContent, colStart = 1, colSpan = 12, fontSize, textAlign, credits } = block;
 
             if (type === "image") {
               return {
@@ -378,6 +379,13 @@ export default function (eleventyConfig) {
                 colSpan,
                 fontSize: fontSize || "3rem", // Default to 3x size
                 textAlign: textAlign || "left", // Default to left
+              };
+            } else if (type === "credits") {
+              return {
+                type: "credits",
+                credits: (credits || []).map((credit) => md.render(credit)),
+                colStart: colStart || 2,
+                colSpan: colSpan || 10,
               };
             }
 

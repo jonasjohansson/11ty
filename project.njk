@@ -42,6 +42,14 @@ eleventyComputed:
         }};{% endif %}">
         {{ block.content | safe }}
       </article>
+      {% elif block.type == 'credits' %}
+      <aside class="credits-block col-start-{{ block.colStart }} col-span-{{ block.colSpan }}">
+        <ul class="credits-list">
+          {% for credit in block.credits %}
+          <li>{{ credit | safe }}</li>
+          {% endfor %}
+        </ul>
+      </aside>
       {% endif %} {% endfor %}
     </div>
   </section>

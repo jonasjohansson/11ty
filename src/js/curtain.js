@@ -54,17 +54,13 @@ export function initCurtain() {
   window.addEventListener("resize", () => {
     // Debounce resize events
     clearTimeout(resizeTimeout);
+
+    // Disable transitions immediately
+    header.style.transition = "none";
+
     resizeTimeout = setTimeout(() => {
-      // Temporarily disable transitions during resize
-      const currentTransition = header.style.transition;
-      header.style.transition = "none";
-
       updateAboutHeight();
-
-      // Restore transition after a frame
-      requestAnimationFrame(() => {
-        header.style.transition = currentTransition;
-      });
+      // Keep transitions disabled - only enable on user interaction
     }, 100);
   });
 
@@ -142,6 +138,9 @@ export function initCurtain() {
     if (!hasMoved) {
       const targetPosition = currentPosition > 0 ? 0 : maxDrag;
       animateCurtain(targetPosition);
+    } else {
+      // After dragging, disable transition to prevent visual glitches
+      header.style.transition = "none";
     }
   });
 
