@@ -38,7 +38,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/css": "assets" }); // Copy CSS to dist/assets
   eleventyConfig.addPassthroughCopy({ "src/js": "assets" }); // Copy JS to dist/assets
   eleventyConfig.addPassthroughCopy("favicon.svg"); // Copy favicon
-  eleventyConfig.addPassthroughCopy("projects"); // Copy projects folder for images
+  // eleventyConfig.addPassthroughCopy("projects"); // Don't copy raw projects - use optimized images only
   eleventyConfig.addPassthroughCopy("CNAME"); // if present
 
   /** Globals */
@@ -133,10 +133,11 @@ export default function (eleventyConfig) {
         console.log(`🖼️  Processing image: ${src} -> ${srcPath}`);
 
         const metadata = await Image(srcPath, {
-          widths: [480, 800, 1200, 1600, 2400],
-          formats: ["avif", "webp", "jpeg"],
+          widths: [1920, 2400], // High resolution for portfolio
+          formats: ["jpeg"], // Just JPEG for simplicity and speed
           urlPath: urlPathBase,
           outputDir: "dist/img",
+          sharpJpegOptions: { quality: 90, progressive: true }, // High quality for portfolio
           sharpOptions: { animated: true },
           filenameFormat(id, fileSrc, width, format) {
             const dirSlug = slug(path.basename(path.dirname(fileSrc))); // project folder
@@ -221,7 +222,7 @@ export default function (eleventyConfig) {
   });
 
   /** Transform projects for JavaScript consumption */
-  eleventyConfig.addGlobalData("projectsForJS", () => {
+  eleventyConfig.addGlobalData("projectsForJS", async () => {
     const root = "projects";
     if (!existsSync(root)) return [];
 
@@ -229,56 +230,87 @@ export default function (eleventyConfig) {
       .filter((d) => d.isDirectory())
       .map((d) => d.name);
 
-    const projects = dirs.map((dir) => {
-      const dirPath = path.join(root, dir);
-      const dataMdPath = path.join(dirPath, "data.md");
+    const projects = await Promise.all(
+      dirs.map(async (dir) => {
+        const dirPath = path.join(root, dir);
+        const dataMdPath = path.join(dirPath, "data.md");
 
-      let title = dir.replace(/[._-]+/g, " ").trim();
-      let tags = [];
-      let year = new Date().getFullYear();
-      let firstImage = null;
+        let title = dir.replace(/[._-]+/g, " ").trim();
+        let tags = [];
+        let year = new Date().getFullYear();
+        let firstImageSrc = null;
+        let firstImageOptimized = null;
 
-      // Read data.md for metadata and first image
-      if (existsSync(dataMdPath)) {
+        // Read data.md for metadata and first image
+        if (existsSync(dataMdPath)) {
+          try {
+            const fileContent = readFileSync(dataMdPath, "utf8");
+            const parsed = matter(fileContent);
+            const { title: mdTitle, date, tags: mdTags = [], blocks = [] } = parsed.data;
+
+            if (mdTitle) title = mdTitle;
+            if (mdTags) tags = mdTags;
+            if (date) year = new Date(date).getFullYear();
+
+            // Find first image block
+            const firstImageBlock = blocks.find((b) => b.type === "image");
+            if (firstImageBlock && firstImageBlock.src) {
+              firstImageSrc = `${root}/${dir}/${firstImageBlock.src}`;
+            }
+          } catch (err) {
+            console.warn(`⚠️  Could not read ${dataMdPath}:`, err.message);
+          }
+        }
+
+        // Fallback: scan for first image if not found in data.md
+        if (!firstImageSrc) {
+          const files = readdirSync(dirPath, { withFileTypes: true }).filter((f) => f.isFile());
+          for (const f of files) {
+            const ext = path.extname(f.name).toLowerCase();
+            if ([".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(ext)) {
+              firstImageSrc = `${root}/${dir}/${f.name}`;
+              break;
+            }
+          }
+        }
+
+      // Generate high-quality strip image
+      if (firstImageSrc) {
         try {
-          const fileContent = readFileSync(dataMdPath, "utf8");
-          const parsed = matter(fileContent);
-          const { title: mdTitle, date, tags: mdTags = [], blocks = [] } = parsed.data;
+          const srcPath = path.join(process.cwd(), firstImageSrc);
+          const urlPathBase = process.env.PATH_PREFIX ? `${process.env.PATH_PREFIX}/img` : "/img";
+          
+          const metadata = await Image(srcPath, {
+            widths: [1920], // High resolution for strips
+            formats: ["jpeg"], // Just JPEG for strips - faster processing
+            urlPath: urlPathBase,
+            outputDir: "dist/img",
+            sharpJpegOptions: { quality: 90, progressive: true }, // High quality for portfolio
+            filenameFormat(id, fileSrc, width, format) {
+              const dirSlug = slug(path.basename(path.dirname(fileSrc)));
+              const baseName = path.basename(fileSrc, path.extname(fileSrc));
+              const baseSlug = slug(baseName);
+              const shortHash = String(id).slice(0, 8);
+              return `${dirSlug}-${baseSlug}-${width}w-${shortHash}.${format}`;
+            },
+          });
 
-          if (mdTitle) title = mdTitle;
-          if (mdTags) tags = mdTags;
-          if (date) year = new Date(date).getFullYear();
-
-          // Find first image block
-          const firstImageBlock = blocks.find((b) => b.type === "image");
-          if (firstImageBlock && firstImageBlock.src) {
-            firstImage = `projects/${dir}/${firstImageBlock.src}`;
-          }
+          const jpeg = metadata.jpeg?.[0];
+          firstImageOptimized = jpeg?.url;
         } catch (err) {
-          console.warn(`⚠️  Could not read ${dataMdPath}:`, err.message);
+          console.warn(`⚠️  Could not process strip image ${firstImageSrc}:`, err.message);
         }
       }
 
-      // Fallback: scan for first image if not found in data.md
-      if (!firstImage) {
-        const files = readdirSync(dirPath, { withFileTypes: true }).filter((f) => f.isFile());
-        for (const f of files) {
-          const ext = path.extname(f.name).toLowerCase();
-          if ([".jpg", ".jpeg", ".png", ".webp", ".gif"].includes(ext)) {
-            firstImage = `projects/${dir}/${f.name}`;
-            break;
-          }
-        }
-      }
-
-      return {
-        title,
-        images: firstImage ? [firstImage] : [],
-        tags,
-        year,
-        slug: dir,
-      };
-    });
+        return {
+          title,
+          images: firstImageOptimized ? [firstImageOptimized] : [],
+          tags,
+          year,
+          slug: dir,
+        };
+      })
+    );
 
     return projects;
   });

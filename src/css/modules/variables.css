@@ -12,8 +12,9 @@
   --header-text: #000000;
 
   /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-normal: 0.3s ease;
+  --transition-fast: 0.4s ease;
+  --transition-normal: 0.6s ease;
+  --transition-slow: 0.8s ease;
 
   /* Spacing */
   --spacing-xs: 0.25rem;

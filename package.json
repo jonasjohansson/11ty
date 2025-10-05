@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "eleventy --serve",
     "watch": "nodemon --watch projects --watch src --ext md,json,jpg,jpeg,png,gif,webp,css,js --exec 'eleventy --serve' --delay 500ms",
-    "build": "eleventy && npm run postbuild",
-    "postbuild": "cp -r src/fonts dist/ && cp -r projects dist/"
+    "build": "eleventy"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.0",

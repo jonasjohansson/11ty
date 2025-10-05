@@ -38,7 +38,6 @@
   text-transform: uppercase;
   font-family: var(--font-family);
   order: 2; /* Button below options visually */
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: fit-content;
   min-width: 80px; /* Fixed minimum width to prevent size changes */
   min-height: 32px; /* Fixed height */
@@ -91,7 +90,7 @@
   background: #333333;
   width: fit-content;
   flex-shrink: 0;
-  transition: background 0.2s ease;
+  transition: background 0.4s ease;
 }
 
 .filter-option:hover {
