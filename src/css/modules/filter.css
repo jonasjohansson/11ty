@@ -58,22 +58,18 @@
 }
 
 .filter-dropdown-content {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
   white-space: nowrap;
-  opacity: 0;
-  transform: translateY(100px);
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   order: 1; /* Options above button visually */
   width: auto;
 }
 
 .filter-dropdown.open .filter-dropdown-content {
-  opacity: 1;
-  transform: translateY(0);
+  display: flex;
   pointer-events: auto;
 }
 
