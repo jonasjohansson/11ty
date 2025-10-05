@@ -4,6 +4,7 @@ import { CONFIG, FILTER_CATEGORIES } from "./config/constants.js";
 
 // Get projects from window global (injected by 11ty)
 const projects = window.__PROJECTS_DATA__ || [];
+const pathPrefix = window.__PATH_PREFIX__ || "";
 
 // ---------- DOM Elements ----------
 // These will be populated when DOM is ready
@@ -245,6 +246,18 @@ function initializeStrips() {
   allStrips = Array.from(stripsContainer?.querySelectorAll(".strip") || []);
   stripImages = Array.from(stripsContainer?.querySelectorAll(".strip-image") || []);
 
+  // Shuffle strips on page load for variety
+  const shuffledStrips = shuffle([...allStrips]);
+
+  // Re-append strips in shuffled order
+  shuffledStrips.forEach((strip) => {
+    stripsContainer.appendChild(strip);
+  });
+
+  // Update references after shuffle
+  allStrips = shuffledStrips;
+  stripImages = Array.from(stripsContainer?.querySelectorAll(".strip-image") || []);
+
   // Load strip images immediately
   stripImages.forEach((img) => {
     const bgImage = img.getAttribute("data-bg-image");
@@ -254,15 +267,44 @@ function initializeStrips() {
     }
   });
 
-  // Add click handlers to strips
+  // Trigger initial animation only on first page load
+  allStrips.forEach((strip, index) => {
+    strip.classList.add("initial-load");
+
+    // After animation completes, mark as loaded for instant visibility on filter changes
+    setTimeout(() => {
+      strip.classList.remove("initial-load");
+      strip.classList.add("loaded");
+    }, 250 + index * 30); // Match animation duration + stagger delay
+  });
+
+  // Add click and hover handlers to strips
+  const headerSubtitle = document.querySelector(".header-subtitle");
+  const defaultSubtitle = headerSubtitle?.textContent || "PROGRESS NOT PERFECTION";
+
   allStrips.forEach((strip) => {
     const projectSlug = strip.getAttribute("data-project");
     const project = projects.find((p) => p.slug === projectSlug);
 
     if (project) {
+      // Click handler
       strip.addEventListener("click", () => {
         const projectId = project.slug || project.title.toLowerCase().replace(/\s+/g, "-");
-        router.navigate(`/work/${projectId}`, { project });
+        const projectPath = pathPrefix ? `${pathPrefix}/work/${projectId}` : `/work/${projectId}`;
+        router.navigate(projectPath, { project });
+      });
+
+      // Hover handlers - update subtitle
+      strip.addEventListener("mouseenter", () => {
+        if (headerSubtitle) {
+          headerSubtitle.textContent = project.title.toUpperCase();
+        }
+      });
+
+      strip.addEventListener("mouseleave", () => {
+        if (headerSubtitle) {
+          headerSubtitle.textContent = defaultSubtitle;
+        }
       });
     }
   });
@@ -281,10 +323,11 @@ function initializeStrips() {
     { passive: true }
   );
 
-  stripsContainer.addEventListener("mouseleave", () => {
-    targetX = 0.5;
-    targetY = 0.5;
-  });
+  // Remove mouseleave handler - let positions stay where they are
+  // stripsContainer.addEventListener("mouseleave", () => {
+  //   targetX = 0.5;
+  //   targetY = 0.5;
+  // });
 
   // Update strip count for dynamic grid sizing
   updateStripCount();

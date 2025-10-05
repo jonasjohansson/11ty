@@ -4,6 +4,7 @@ console.log("Jonas Johansson Portfolio - Loaded");
 // Import functionality (router and strips initialize themselves)
 import "./strips.js";
 import "./router-simple.js";
+import "./xylophone.js";
 import { initCurtain } from "./curtain.js";
 
 // Initialize curtain when DOM is ready

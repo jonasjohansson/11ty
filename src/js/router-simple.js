@@ -1,5 +1,6 @@
 // Simplified SPA Router - Fetches server-rendered HTML
 const projects = window.__PROJECTS_DATA__ || [];
+const pathPrefix = window.__PATH_PREFIX__ || "";
 
 class SPARouter {
   constructor() {
@@ -30,10 +31,13 @@ class SPARouter {
     }
     this.currentRoute = path;
 
-    if (path === "/" || path === "/index.html") {
+    // Remove path prefix from path for comparison
+    const relativePath = pathPrefix ? path.replace(pathPrefix, "") : path;
+
+    if (relativePath === "/" || relativePath === "/index.html" || relativePath === "") {
       this.showHome();
-    } else if (path.startsWith("/work/")) {
-      const slug = path.replace("/work/", "").replace("/", "");
+    } else if (relativePath.startsWith("/work/")) {
+      const slug = relativePath.replace("/work/", "").replace(/\/$/, "");
       this.showProject(slug);
     }
   }
@@ -57,8 +61,9 @@ class SPARouter {
     }
 
     try {
-      // Fetch the project page HTML
-      const response = await fetch(`/work/${slug}/`);
+      // Fetch the project page HTML with path prefix
+      const fetchPath = pathPrefix ? `${pathPrefix}/work/${slug}/` : `/work/${slug}/`;
+      const response = await fetch(fetchPath);
       if (!response.ok) throw new Error(`Failed to fetch project: ${response.status}`);
 
       const html = await response.text();
@@ -94,7 +99,8 @@ class SPARouter {
   }
 
   goHome() {
-    this.navigate("/");
+    const homePath = pathPrefix ? `${pathPrefix}/` : "/";
+    this.navigate(homePath);
   }
 }
 

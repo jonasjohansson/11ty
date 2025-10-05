@@ -18,8 +18,9 @@
     <link
       rel="icon"
       type="image/svg+xml"
-      href="/favicon.svg" />
+      href="{{ '/favicon.svg' | url }}" />
     <script>
+      window.__PATH_PREFIX__ = "{{ '/' | url }}".replace(/\/$/, '');
       window.__PROJECTS_DATA__ = {{ projectsForJS | dump | safe }};
       {% if project %}
       window.__INITIAL_PROJECT__ = {{ project | dump | safe }};
@@ -35,30 +36,30 @@
 
     <link
       rel="stylesheet"
-      href="/assets/fonts.css" />
+      href="{{ '/assets/fonts.css' | url }}" />
     <link
       rel="stylesheet"
-      href="/assets/modules/variables.css" />
+      href="{{ '/assets/modules/variables.css' | url }}" />
     <link
       rel="stylesheet"
-      href="/assets/modules/base.css" />
+      href="{{ '/assets/modules/base.css' | url }}" />
     <link
       rel="stylesheet"
-      href="/assets/modules/header.css" />
+      href="{{ '/assets/modules/header.css' | url }}" />
     <link
       rel="stylesheet"
-      href="/assets/modules/about.css" />
+      href="{{ '/assets/modules/about.css' | url }}" />
     <link
       rel="stylesheet"
-      href="/assets/modules/filter.css" />
+      href="{{ '/assets/modules/filter.css' | url }}" />
     <link
       rel="stylesheet"
-      href="/assets/modules/strips.css" />
+      href="{{ '/assets/modules/strips.css' | url }}" />
     <link
       rel="stylesheet"
-      href="/assets/modules/project.css" />
+      href="{{ '/assets/modules/project.css' | url }}" />
     <script
       type="module"
-      src="/assets/main.js"></script>
+      src="{{ '/assets/main.js' | url }}"></script>
   </body>
 </html>

@@ -1,9 +1,8 @@
 /* Strips Layout */
 
 #strips {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr; /* Equal width columns - dynamically calculated */
+  display: flex;
+  flex-direction: row;
   width: 100vw;
   max-width: 100vw; /* Prevent exceeding viewport */
   min-height: 100vh;
@@ -20,118 +19,7 @@
   -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   position: relative;
   z-index: 10;
-}
-
-/* Dynamic grid columns based on visible strip count */
-#strips[data-visible-count="1"] {
-  grid-template-columns: 1fr;
-}
-
-#strips[data-visible-count="2"] {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-#strips[data-visible-count="3"] {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-#strips[data-visible-count="4"] {
-  grid-template-columns: repeat(4, 1fr);
-}
-
-#strips[data-visible-count="5"] {
-  grid-template-columns: repeat(5, 1fr);
-}
-
-#strips[data-visible-count="6"] {
-  grid-template-columns: repeat(6, 1fr);
-}
-
-#strips[data-visible-count="7"] {
-  grid-template-columns: repeat(7, 1fr);
-}
-
-#strips[data-visible-count="8"] {
-  grid-template-columns: repeat(8, 1fr);
-}
-
-#strips[data-visible-count="9"] {
-  grid-template-columns: repeat(9, 1fr);
-}
-
-#strips[data-visible-count="10"] {
-  grid-template-columns: repeat(10, 1fr);
-}
-
-#strips[data-visible-count="11"] {
-  grid-template-columns: repeat(11, 1fr);
-}
-
-#strips[data-visible-count="12"] {
-  grid-template-columns: repeat(12, 1fr);
-}
-
-#strips[data-visible-count="13"] {
-  grid-template-columns: repeat(13, 1fr);
-}
-
-#strips[data-visible-count="14"] {
-  grid-template-columns: repeat(14, 1fr);
-}
-
-#strips[data-visible-count="15"] {
-  grid-template-columns: repeat(15, 1fr);
-}
-
-#strips[data-visible-count="16"] {
-  grid-template-columns: repeat(16, 1fr);
-}
-
-#strips[data-visible-count="17"] {
-  grid-template-columns: repeat(17, 1fr);
-}
-
-#strips[data-visible-count="18"] {
-  grid-template-columns: repeat(18, 1fr);
-}
-
-#strips[data-visible-count="19"] {
-  grid-template-columns: repeat(19, 1fr);
-}
-
-#strips[data-visible-count="20"] {
-  grid-template-columns: repeat(20, 1fr);
-}
-
-#strips[data-visible-count="21"] {
-  grid-template-columns: repeat(21, 1fr);
-}
-
-#strips[data-visible-count="22"] {
-  grid-template-columns: repeat(22, 1fr);
-}
-
-#strips[data-visible-count="23"] {
-  grid-template-columns: repeat(23, 1fr);
-}
-
-#strips[data-visible-count="24"] {
-  grid-template-columns: repeat(24, 1fr);
-}
-
-/* For more than 24 strips, use auto columns */
-#strips[data-visible-count]:not([data-visible-count="1"]):not([data-visible-count="2"]):not([data-visible-count="3"]):not(
-    [data-visible-count="4"]
-  ):not([data-visible-count="5"]):not([data-visible-count="6"]):not([data-visible-count="7"]):not([data-visible-count="8"]):not(
-    [data-visible-count="9"]
-  ):not([data-visible-count="10"]):not([data-visible-count="11"]):not([data-visible-count="12"]):not([data-visible-count="13"]):not(
-    [data-visible-count="14"]
-  ):not([data-visible-count="15"]):not([data-visible-count="16"]):not([data-visible-count="17"]):not([data-visible-count="18"]):not(
-    [data-visible-count="19"]
-  ):not([data-visible-count="20"]):not([data-visible-count="21"]):not([data-visible-count="22"]):not([data-visible-count="23"]):not(
-    [data-visible-count="24"]
-  ) {
-  grid-template-columns: repeat(var(--visible-strip-count, 24), 1fr);
+  background: #1a1a1a;
 }
 
 #strips.dimmed {
@@ -144,42 +32,48 @@
 }
 
 #strips.vertical {
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  flex-direction: row;
 }
 
 #strips.horizontal {
-  grid-auto-flow: row;
-  grid-auto-rows: 1fr;
-  grid-auto-columns: unset;
+  flex-direction: column;
 }
 
-/* Strip - Dynamic width based on visible count */
+/* Strip - Flexbox layout with equal width */
 .strip {
   position: relative;
   height: 100vh;
   height: 100dvh;
-  contain: layout style paint;
+  flex: 1 1 0;
+  min-width: 0;
   overflow: visible;
   cursor: pointer;
-  will-change: auto;
-  /* Width is now controlled by CSS Grid - no fixed widths needed! */
-
-  /* Animate in from left with staggered delay */
-  animation: slideInFromLeft 0.25s cubic-bezier(0.15, 0.8, 0.25, 1) forwards;
+  /* Initial state before animation */
   opacity: 0;
   transform: translateX(-120%) scale(0.95) rotate(-2deg);
   transform-origin: center center;
+  transition: flex-grow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Animate in from left with staggered delay - only on initial load */
+.strip.initial-load {
+  animation: slideInFromLeft 0.25s cubic-bezier(0.15, 0.8, 0.25, 1) forwards;
+}
+
+/* After initial load, strips are visible by default */
+.strip.loaded {
+  opacity: 1;
+  transform: translateX(0) scale(1) rotate(0deg);
 }
 
 .strip:hover {
+  flex-grow: 7.5;
   z-index: 15;
 }
 
-.strip:hover .strip-image,
 .strip:hover .strip-text {
-  transform: scale(1.08);
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: calc(var(--font-size-base) * 1.5);
+  transition: font-size 0.3s ease;
 }
 
 @keyframes slideInFromLeft {
@@ -253,34 +147,7 @@
 }
 
 .strip-text {
-  position: absolute;
-  left: calc(50% + 2px);
-  bottom: 0;
-  transform: translate(-50%, 0);
-  font-size: var(--font-size-base);
-  padding: var(--spacing-sm);
-  padding-bottom: calc(var(--spacing-sm) + env(safe-area-inset-bottom, 0px));
-  color: #ffffff;
-  mix-blend-mode: normal;
-  pointer-events: none;
-  z-index: 4;
   display: none;
-  align-items: center;
-  justify-content: center;
-  font-weight: normal;
-  white-space: nowrap;
-  overflow: visible;
-  text-indent: 0;
-  font-family: var(--font-family);
-  letter-spacing: 0.1rem;
-  line-height: 1.4;
-  text-transform: uppercase;
-  writing-mode: sideways-lr;
-  text-orientation: mixed;
-}
-
-.strip:hover .strip-text {
-  display: flex; /* Show on hover */
 }
 
 .strip.wide .strip-text {

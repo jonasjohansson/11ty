@@ -23,7 +23,7 @@
   --spacing-xl: 2rem;
 
   /* Typography */
-  --font-family: "Signifier", Georgia, serif;
+  --font-family: "OffBit", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
   --font-size-base: 14.4px;
   --letter-spacing-base: 0.12rem;
   --letter-spacing-wide: 0.172rem;
