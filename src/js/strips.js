@@ -312,16 +312,57 @@ function initializeStrips() {
   // Attach mouse/touch event listeners for parallax effect
   stripsContainer.addEventListener("pointermove", throttledHandlePoint);
 
+  // Touch handling for mobile - track which strip is being touched
+  let currentlyTouchedStrip = null;
+
   stripsContainer.addEventListener(
     "touchmove",
     (e) => {
       if (e.touches && e.touches.length > 0) {
         const t = e.touches[0];
         handlePoint(t.clientX, t.clientY);
+
+        // Find which strip is under the touch point
+        const element = document.elementFromPoint(t.clientX, t.clientY);
+        const strip = element?.closest(".strip");
+
+        if (strip !== currentlyTouchedStrip) {
+          // Remove hover class from previous strip
+          if (currentlyTouchedStrip) {
+            currentlyTouchedStrip.classList.remove("touch-hover");
+          }
+
+          // Add hover class to new strip
+          if (strip) {
+            strip.classList.add("touch-hover");
+
+            // Update subtitle for touch
+            const projectSlug = strip.getAttribute("data-project");
+            const project = projects.find((p) => p.slug === projectSlug);
+            if (project && headerSubtitle) {
+              headerSubtitle.textContent = project.title.toUpperCase();
+            }
+          } else if (headerSubtitle) {
+            headerSubtitle.textContent = defaultSubtitle;
+          }
+
+          currentlyTouchedStrip = strip;
+        }
       }
     },
     { passive: true }
   );
+
+  // Clear touch hover when touch ends
+  stripsContainer.addEventListener("touchend", () => {
+    if (currentlyTouchedStrip) {
+      currentlyTouchedStrip.classList.remove("touch-hover");
+      currentlyTouchedStrip = null;
+    }
+    if (headerSubtitle) {
+      headerSubtitle.textContent = defaultSubtitle;
+    }
+  });
 
   // Remove mouseleave handler - let positions stay where they are
   // stripsContainer.addEventListener("mouseleave", () => {
