@@ -1,0 +1,67 @@
+/* Header & Island */
+
+header {
+  position: fixed;
+  top: 0;
+  top: env(safe-area-inset-top); /* Account for iPhone Dynamic Island */
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: var(--header-z-index);
+  pointer-events: none;
+  /* Transition controlled by JavaScript to avoid initial animation */
+}
+
+/* Hover preview is now handled by JavaScript for smoother control */
+
+.header-content {
+  background: #ffffff;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-lg);
+  pointer-events: auto;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+
+  /* Enable touch dragging - allow vertical pan for curtain */
+  touch-action: pan-y;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+.header-content:active {
+  cursor: grabbing;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.header-title {
+  font-size: var(--font-size-base);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--header-text);
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.header-subtitle {
+  font-size: var(--font-size-base);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--header-text);
+  text-transform: uppercase;
+  font-weight: normal;
+  line-height: 1;
+  white-space: nowrap;
+}

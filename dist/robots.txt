@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jonasjohansson.github.io/11ty/sitemap.xml
+Sitemap: https://jonasjohansson.se/sitemap.xml

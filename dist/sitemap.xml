@@ -1,13 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jonasjohansson.github.io/11ty</loc>
+    <loc>https://jonasjohansson.se</loc>
     <changefreq>weekly</changefreq>
   </url>
     <url>
-      <loc>https://jonasjohansson.github.io/11ty/</loc>
+      <loc>https://jonasjohansson.se/</loc>
       
       <lastmod>2025-09-06</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/mystery-on-the-icehotel-express-at-icehotel/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/people-in-orbit/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/retrospectives-at-nowhere/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/sala-hjartslag-at-sala-kommun/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/tinymassive-at-sonar-reykjavik/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/transcend/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/tufting-ex-machina/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/vista/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/embed-at-hobo-hotel/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/emerging-sensation/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/firestarter-at-nowhere/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/harpa-light-organ-at-sonar-reykjavik/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/harpa-touch-at-sonar-reykjavik/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/haven-at-icehotel/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/heroes-at-nobel-week-lights/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/jag-ar-gud-at-kulturhuset-stadsteatern/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/lights-for-ukraine/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/lyra/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/myriad-at-reaktorhallen-r1/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/danny-saucedo/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/dendrolux-at-into-the-woods/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/dendrolux-at-tjoloholms-slott/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/eastern-city-portal/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
+      <changefreq>monthly</changefreq>
+    </url>
+    <url>
+      <loc>https://jonasjohansson.se/work/crack-at-nowhere/</loc>
+      
+      <lastmod>2025-10-05</lastmod>
       <changefreq>monthly</changefreq>
     </url>
 </urlset>

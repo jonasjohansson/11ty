@@ -1,2 +1,12 @@
-// Used by Eleventy’s Vite plugin. Extend if needed.
-export default {};
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  clearScreen: false,
+  build: {
+    emptyOutDir: false,
+    outDir: "dist/assets",
+    rollupOptions: {
+      input: "/src/js/main.js",
+    },
+  },
+});

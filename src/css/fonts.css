@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "OffBit";
+  src: url("../fonts/OffBit-Regular.woff2") format("woff2"), url("../fonts/OffBit-Regular.woff") format("woff"),
+    url("../fonts/OffBit-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OffBit";
+  src: url("../fonts/OffBit-101Bold.woff2") format("woff2"), url("../fonts/OffBit-101Bold.woff") format("woff"),
+    url("../fonts/OffBit-101Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Signifier";
+  src: url("../fonts/signifier-light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}

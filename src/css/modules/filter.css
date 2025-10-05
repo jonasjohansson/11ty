@@ -1,0 +1,142 @@
+/* Filter Dropdown */
+
+.filter-dropdown {
+  position: fixed;
+  bottom: 2rem;
+  bottom: calc(2rem + env(safe-area-inset-bottom, 0px)); /* Account for safe area */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--header-z-index);
+  pointer-events: none; /* Don't block strips - only button and options should capture events */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: opacity 0.3s ease;
+}
+
+/* Fade out when about is visible */
+.filter-dropdown.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.filter-dropdown-button {
+  background: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #000000;
+  font-size: var(--font-size-base);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  padding-top: calc(var(--spacing-sm) + 2px);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  letter-spacing: var(--letter-spacing-base);
+  text-transform: uppercase;
+  font-family: var(--font-family);
+  order: 2; /* Button below options visually */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: fit-content;
+  white-space: nowrap;
+  pointer-events: auto; /* Button captures events even though parent doesn't */
+}
+
+.filter-dropdown-button:hover {
+  background: #cccccc;
+  color: #000000;
+}
+
+/* Larger font size when showing close symbol */
+.filter-dropdown.open .filter-dropdown-button {
+  font-size: calc(var(--font-size-base) * 1.5);
+  line-height: 1;
+}
+
+.filter-dropdown-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(100px);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  order: 1; /* Options above button visually */
+  width: auto;
+}
+
+.filter-dropdown.open .filter-dropdown-content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.filter-separator {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0.25rem 0;
+}
+
+.filter-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  padding-top: calc(var(--spacing-sm) + 2px);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  width: fit-content;
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.filter-option:hover {
+  background: #cccccc;
+}
+
+.filter-option input[type="checkbox"] {
+  display: none;
+}
+
+.filter-option span {
+  color: #000000;
+  font-size: var(--font-size-base);
+  white-space: nowrap;
+  letter-spacing: var(--letter-spacing-base);
+  text-transform: uppercase;
+}
+
+/* Checked state - darker background */
+.filter-option:has(input[type="checkbox"]:checked) {
+  background: #000000;
+}
+
+.filter-option:has(input[type="checkbox"]:checked) span {
+  color: #ffffff;
+}
+
+.filter-option:has(input[type="checkbox"]:checked):hover {
+  background: #333333;
+}
+
+/* CSS Filtering System */
+/* By default, all strips are visible */
+.strip {
+  display: block;
+}
+
+/* When filters are active, hide all strips by default */
+body.filter-active .strip {
+  display: none !important;
+}
+
+/* Show strips that have the filter-match class (added by JavaScript) */
+body.filter-active .strip.filter-match {
+  display: block !important;
+}

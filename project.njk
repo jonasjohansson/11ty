@@ -1,0 +1,48 @@
+---
+layout: jonasjohansson.njk
+pagination:
+  data: projects
+  size: 1
+  alias: project
+  addAllPagesToCollections: true
+permalink: "work/{{ project.slug }}/"
+eleventyComputed:
+  title: "{{ project.title }}"
+---
+
+<div
+  id="projects"
+  class="projects-container">
+  <section
+    class="project visible"
+    id="{{ project.slug }}"
+    data-project="{{ project.slug }}">
+    <h1 class="project-title">{{ projectContent[project.slug].title }}</h1>
+    <div class="project-grid">
+      {% for block in projectContent[project.slug].content %} {% if block.type == 'image' %}
+      <figure class="media-item {% if loop.first %}hero{% endif %} col-start-{{ block.colStart }} col-span-{{ block.colSpan }}">
+        {% responsiveImage block.src, block.alt %}
+      </figure>
+      {% elif block.type == 'video' %}
+      <figure class="media-item col-start-{{ block.colStart }} col-span-{{ block.colSpan }}">
+        <video
+          src="{{ block.src | url }}"
+          playsinline
+          muted
+          loop
+          controls
+          preload="metadata"
+          style="max-width: 100%; height: auto"></video>
+      </figure>
+      {% elif block.type == 'text' %}
+      <article
+        class="text-block col-start-{{ block.colStart }} col-span-{{ block.colSpan }}"
+        style="{% if block.fontSize %}font-size: {{ block.fontSize }};{% endif %} {% if block.textAlign %}text-align: {{
+          block.textAlign
+        }};{% endif %}">
+        {{ block.content | safe }}
+      </article>
+      {% endif %} {% endfor %}
+    </div>
+  </section>
+</div>

@@ -1,54 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1" />
 
-  {# SEO fallbacks #}
-  <title>{{ title or site.title }}</title>
-  <meta name="description" content="{{ description or site.description }}">
+    <title>{{ title or site.title }}</title>
+    <meta
+      name="description"
+      content="{{ description or site.description }}" />
 
-  {# Canonical #}
-  {% set canonical = site.url ~ (page.url | url) %}
-  <link rel="canonical" href="{{ canonical }}">
+    {% set canonical = site.url ~ (page.url | url) %}
+    <link
+      rel="canonical"
+      href="{{ canonical }}" />
 
-  {# Social image #}
-  {% set ogImg = socialImage or site.socialImage %}
+    {% set ogImg = socialImage or site.socialImage %}
 
-  {# Open Graph #}
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ title or site.title }}">
-  <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:url" content="{{ canonical }}">
-  <meta property="og:image" content="{{ site.url ~ (ogImg | url) }}">
+    <meta
+      property="og:type"
+      content="website" />
+    <meta
+      property="og:title"
+      content="{{ title or site.title }}" />
+    <meta
+      property="og:description"
+      content="{{ description or site.description }}" />
+    <meta
+      property="og:url"
+      content="{{ canonical }}" />
+    <meta
+      property="og:image"
+      content="{{ site.url ~ (ogImg | url) }}" />
 
-  {# Twitter #}
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ title or site.title }}">
-  <meta name="twitter:description" content="{{ description or site.description }}">
-  <meta name="twitter:image" content="{{ site.url ~ (ogImg | url) }}">
+    <meta
+      name="twitter:card"
+      content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="{{ title or site.title }}" />
+    <meta
+      name="twitter:description"
+      content="{{ description or site.description }}" />
+    <meta
+      name="twitter:image"
+      content="{{ site.url ~ (ogImg | url) }}" />
 
-  <link rel="icon" href="{{ '/favicon.ico' | url }}">
-  <link rel="manifest" href="{{ '/manifest.webmanifest' | url }}">
-</head>
+    <link
+      rel="icon"
+      href="{{ '/favicon.ico' | url }}" />
+    <link
+      rel="manifest"
+      href="{{ '/manifest.webmanifest' | url }}" />
+  </head>
 
-<body>
-  <header class="site-header">
-    <h1><a href="{{ '/' | url }}">{{ siteTitle or "Artist Portfolio" }}</a></h1>
-  </header>
+  <body>
+    <header class="site-header">
+      <h1>
+        <a href="{{ '/' | url }}">{{ siteTitle or "Artist Portfolio" }}</a>
+      </h1>
+    </header>
 
-  <main id="main">{{ content | safe }}</main>
+    <main id="main">{{ content | safe }}</main>
 
-  <footer class="site-footer">
-    <small>© {{ buildYear }} · Built with Eleventy 3.1.0 + Vite</small>
-  </footer>
+    <footer class="site-footer">
+      <small>© {{ buildYear }} · Built with Eleventy 3.1.0 + Vite</small>
+    </footer>
 
-  {# HMR client in dev only #}
-  {% if isDev %}
-    <script type="module" src="/@vite/client"></script>
-  {% endif %}
-
-  {# Vite entry: IMPORTANT — keep absolute "/src/main.js" (no | url) #}
-  <script type="module" src="/src/main.js"></script>
-</body>
+    {% if isDev %}
+    <script
+      type="module"
+      src="/@vite/client"></script>
+    {% endif %}
+    <script
+      type="module"
+      src="/src/main.js"></script>
+  </body>
 </html>

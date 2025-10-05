@@ -1,0 +1,324 @@
+/* Project Detail View - Inline Expansion */
+
+.project {
+  width: 100%;
+  display: block;
+  background-color: var(--bg-primary);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.project.visible {
+  display: block;
+}
+
+/* Project Title - Rotated like strip text */
+.project-title {
+  position: fixed;
+  left: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left center;
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--text-primary);
+  margin: 0;
+  z-index: 20;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Project fade-in animation */
+.project.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Projects container - allows scrolling when projects are visible */
+#projects {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hide projects container when empty */
+#projects:not(:has(.project)) {
+  display: none;
+  min-height: 0;
+}
+
+#projects.visible {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Reset figure margins */
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+/* Project Grid System - 12 column grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 var(--spacing-xl);
+  box-sizing: border-box;
+}
+
+/* First item (hero) - full viewport height, no padding */
+.project-grid > .media-item:first-child,
+.project-grid > .media-item.hero {
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  margin-left: calc(-1 * var(--spacing-xl));
+  margin-right: calc(-1 * var(--spacing-xl));
+  width: calc(100% + 2 * var(--spacing-xl));
+  max-width: none;
+}
+
+.project-grid > .media-item:first-child img,
+.project-grid > .media-item.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Media items - general styles */
+.media-item {
+  width: 100%;
+  margin: 0;
+  padding-bottom: var(--spacing-xl);
+}
+
+.media-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Text blocks */
+.text-block {
+  padding-bottom: var(--spacing-xl);
+}
+
+/* Grid column start classes - with !important for precedence */
+.col-start-1 {
+  grid-column-start: 1 !important;
+}
+.col-start-2 {
+  grid-column-start: 2 !important;
+}
+.col-start-3 {
+  grid-column-start: 3 !important;
+}
+.col-start-4 {
+  grid-column-start: 4 !important;
+}
+.col-start-5 {
+  grid-column-start: 5 !important;
+}
+.col-start-6 {
+  grid-column-start: 6 !important;
+}
+.col-start-7 {
+  grid-column-start: 7 !important;
+}
+.col-start-8 {
+  grid-column-start: 8 !important;
+}
+.col-start-9 {
+  grid-column-start: 9 !important;
+}
+.col-start-10 {
+  grid-column-start: 10 !important;
+}
+.col-start-11 {
+  grid-column-start: 11 !important;
+}
+.col-start-12 {
+  grid-column-start: 12 !important;
+}
+
+/* Grid column span classes - with !important for precedence */
+.col-span-1 {
+  grid-column-end: span 1 !important;
+}
+.col-span-2 {
+  grid-column-end: span 2 !important;
+}
+.col-span-3 {
+  grid-column-end: span 3 !important;
+}
+.col-span-4 {
+  grid-column-end: span 4 !important;
+}
+.col-span-5 {
+  grid-column-end: span 5 !important;
+}
+.col-span-6 {
+  grid-column-end: span 6 !important;
+}
+.col-span-7 {
+  grid-column-end: span 7 !important;
+}
+.col-span-8 {
+  grid-column-end: span 8 !important;
+}
+.col-span-9 {
+  grid-column-end: span 9 !important;
+}
+.col-span-10 {
+  grid-column-end: span 10 !important;
+}
+.col-span-11 {
+  grid-column-end: span 11 !important;
+}
+.col-span-12 {
+  grid-column-end: span 12 !important;
+}
+
+/* Hero Image */
+.project-hero {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+/* Content Area */
+.project-content {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  padding-bottom: 0;
+}
+
+.project-title {
+  display: none; /* Title is in header now */
+}
+
+/* Project Info */
+.project-info {
+  margin-bottom: var(--spacing-xl);
+}
+
+.project-meta {
+  display: flex;
+  gap: var(--spacing-lg);
+  justify-content: center;
+  margin-bottom: var(--spacing-xl);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.project-year,
+.project-tags {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+/* Gallery */
+.project-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  margin-bottom: var(--spacing-xxl);
+  width: 100%;
+}
+
+.project-image {
+  margin: 0;
+  width: 100%;
+}
+
+.project-image img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Navigation Strips at Bottom */
+.project-strips {
+  margin-top: var(--spacing-xxl);
+  padding-top: var(--spacing-xl);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-strips h3 {
+  text-align: center;
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-xl);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+/* Prev/Next Navigation Buttons (inside header) */
+.project-nav {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--header-text);
+  color: var(--header-text);
+  cursor: pointer;
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.project-nav.visible {
+  display: flex;
+}
+
+.project-nav:hover {
+  background: var(--header-text);
+  color: var(--bg-primary);
+  transform: scale(1.1);
+}
+
+.project-nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.back-button {
+  display: none; /* Using header island for navigation instead */
+}

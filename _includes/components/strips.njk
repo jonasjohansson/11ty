@@ -1,0 +1,17 @@
+<div
+  id="strips"
+  class="vertical"
+  role="list">
+  {% for project in projectsForJS %}
+  <div
+    class="strip"
+    data-project="{{ project.slug }}"
+    data-tags="{{ project.tags | join(',') }}"
+    style="animation-delay: {{ loop.index0 * 0.03 }}s;">
+    <div
+      class="strip-image"
+      data-bg-image="/{{ project.images[0] }}"></div>
+    <div class="strip-text">{{ project.title }}</div>
+  </div>
+  {% endfor %}
+</div>

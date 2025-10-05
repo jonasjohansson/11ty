@@ -1,7 +1,18 @@
 {
-  "title": "Artist Portfolio — Jonas Johansson",
-  "description": "Works in light, video, sculpture, and interaction. A long-scroll portfolio with projects, images, and notes.",
+  "title": "Jonas Johansson",
+  "subtitle": "PROGRESS NOT PERFECTION",
+  "description": "Jonas Johansson (1987–) is an anywhere-based artist, educator, and designer from Glommen, Halland, transforming light ✺ technology through ❋ play, community and (un)human intervention.",
+  "url": "https://jonasjohansson.se",
   "author": "Jonas Johansson",
-  "url": "https://jonasjohansson.github.io/11ty",
-  "socialImage": "/src/og-default.jpg"
+  "email": "j@jonasjohansson.se",
+  "social": {
+    "twitter": "@jonasjohansson",
+    "instagram": "@jonasjohansson"
+  },
+  "meta": {
+    "keywords": "artist, designer, educator, light, technology, interactive art, audiovisual, installation",
+    "ogType": "website",
+    "ogImage": "/assets/og-image.jpg"
+  },
+  "tags": ["light", "installation", "education", "av", "mixed reality", "stage"]
 }

@@ -1,0 +1,57 @@
+/* CSS Variables */
+:root {
+  /* Colors - Light Mode */
+  --bg-primary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: rgba(0, 0, 0, 0.05);
+  --text-primary: #000000;
+  --border-color: rgba(0, 0, 0, 0.1);
+
+  /* Header */
+  --header-bg: #ffffff;
+  --header-text: #000000;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Typography */
+  --font-family: "Signifier", Georgia, serif;
+  --font-size-base: 14.4px;
+  --letter-spacing-base: 0.12rem;
+  --letter-spacing-wide: 0.172rem;
+  --letter-spacing-wider: 0.2rem;
+
+  /* Layout */
+  --header-z-index: 60;
+  --detail-z-index: 100;
+  --expand-z-index: 50;
+
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+}
+
+/* Mobile responsive typography and spacing */
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 12px;
+    --letter-spacing-base: 0.09rem;
+    --letter-spacing-wide: 0.125rem;
+    --letter-spacing-wider: 0.15rem;
+
+    /* Smaller spacing on mobile */
+    --spacing-xs: 0.125rem;
+    --spacing-sm: 0.25rem;
+    --spacing-md: 0.5rem;
+    --spacing-lg: 0.75rem;
+    --spacing-xl: 1rem;
+  }
+}

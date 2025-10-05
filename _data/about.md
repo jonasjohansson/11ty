@@ -1,0 +1,7 @@
+Jonas Johansson (1987–) is an anywhere-based artist, educator, and designer from Glommen, Halland, transforming light ✺ technology through ❋ play, community and (un)human intervention.
+
+He currently designs courses for Svenska Tecknare, lectured in Visual Communication at [Beckmans](https://beckmans.se) (2017–2025), and is working on [Dome Dreaming](https://domedreaming.se), a festival for innovative audiovisual and cinematic experiences within the [Wisdome](https://wisdome.se) project. Jonas has served as an Assessor for Kulturbryggan under the Swedish Arts Grants Committee. His prior industry experience includes creating technology-driven designs at KRAM/WEISSHAAR, producing tactile digital objects at [FIELD](https://field.io) in London, and leading immersive stage experiences as Interactive Art Director at [Moment Factory](https://momentfactory.com) in Montreal.
+
+Jonas runs the artist residency [Visualia](https://visualia.se), is a member of Stockholm-based lighting collective [Svartljus](https://svartljus.se), and co-founded [Nordic Audiovisual Artists](https://nava.community), a network for electronic arts and audiovisual production. He runs a studio space in Södermalm together with [SMASH](https://smash.studio) and [IVAR](https://ivar.studio).
+
+Open for commissions, collaborations, and workshops. Currently accepting internship requests. For full [resume](YOUR_RESUME_LINK) and details: [j@jonasjohansson.se](mailto:j@jonasjohansson.se)

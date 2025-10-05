@@ -1,0 +1,66 @@
+/* Base Styles & Reset */
+
+html {
+  /* Support for iOS dynamic viewport height */
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height - accounts for address bar */
+  overflow-y: auto;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-spacing-wider);
+  overflow-y: auto;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Project-visible class no longer needed for scroll, but keep for hooks */
+body.project-visible {}
+
+/* Hide scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+body {
+  -ms-overflow-style: none;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+a:hover {
+  opacity: 0.7;
+}
+
+a[target="_blank"]::after {
+  content: "↗";
+  display: inline-block;
+  margin-left: 0.25rem;
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* Utility classes */
+.hidden {
+  display: none !important;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{ site.title }}</title>
+    <meta
+      name="description"
+      content="{{ site.description }}" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta
+      name="apple-mobile-web-app-capable"
+      content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon.svg" />
+    <script>
+      window.__PROJECTS_DATA__ = {{ projectsForJS | dump | safe }};
+      {% if project %}
+      window.__INITIAL_PROJECT__ = {{ project | dump | safe }};
+      {% endif %}
+    </script>
+  </head>
+  <body>
+    {% include "../components/header.njk" %}
+
+    {{ content | safe }}
+
+    {% include "../components/strips.njk" %} {% include "../components/footer.njk" %}
+
+    <link
+      rel="stylesheet"
+      href="/assets/fonts.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/modules/variables.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/modules/base.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/modules/header.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/modules/about.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/modules/filter.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/modules/strips.css" />
+    <link
+      rel="stylesheet"
+      href="/assets/modules/project.css" />
+    <script
+      type="module"
+      src="/assets/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+<footer>
+  <div
+    class="filter-dropdown"
+    id="filter-dropdown-container">
+    <button class="filter-dropdown-button">Filter</button>
+
+    <div
+      class="filter-dropdown-content"
+      id="filter-dropdown">
+      {% for tag in site.tags %}
+      <label class="filter-option">
+        <input
+          type="checkbox"
+          value="{{ tag }}"
+          data-type="category" />
+        <span>{{ tag | capitalize }}</span>
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+</footer>
